@@ -255,12 +255,7 @@ def run(variant):
 
 
     for iter in pbar:
-            
-        # trainer.save_model(
-        #         env_name=variant['env']+variant['dataset'], 
-        #         iter=iter, 
-        #         folder='/data1/users/zhenghongling/Mixture-of-depths/model_saved/')
-            
+
         datasets = RLData(variant['batch_size'],variant['K'], trajectories, sorted_inds, scale, state_dim, act_dim, state_mean, state_std, max_ep_len, p_sample,device)
         sampler = DistributedSampler(datasets, num_replicas=dist.get_world_size(), rank=dist.get_rank())
         dataloader = DataLoader(datasets, batch_size=variant['batch_size'], sampler=sampler, num_workers=variant['num_workers'])
@@ -284,12 +279,6 @@ def run(variant):
                     print(f'{k}: {v}')
 
 
-        # if iter % variant['save_interval'] == 0:
-        #     trainer.save_model(
-        #         env_name=variant['env']+variant['dataset'], 
-        #         iter=iter, 
-        #         folder='/data1/users/zhenghongling/Mixture-of-depths/model_saved/')
-            
 
         if dist.get_rank() == 0:
             outputs.update({"global_step": iter})
