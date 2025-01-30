@@ -73,7 +73,6 @@ class RLData(Dataset):
             timesteps[-1] = np.concatenate([np.zeros((1, max_len - tlen)), timesteps[-1]], axis=1)
             mask.append(np.concatenate([np.zeros((1, max_len - tlen)), np.ones((1, tlen))], axis=1))
         
-        # 构建 data_dict
         data_dict['s'] = torch.from_numpy(np.concatenate(s, axis=0)).to(dtype=torch.float32)
         data_dict['a'] = torch.from_numpy(np.concatenate(a, axis=0)).to(dtype=torch.float32)
         data_dict['r'] = torch.from_numpy(np.concatenate(r, axis=0)).to(dtype=torch.float32)
