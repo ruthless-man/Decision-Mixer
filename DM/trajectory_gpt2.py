@@ -97,7 +97,6 @@ def load_tf_weights_in_gpt2(model, config, gpt2_checkpoint_path):
 class Attention(nn.Module):
     def __init__(self, nx, n_ctx, config, scale=False, is_cross_attention=False):
         super().__init__()
-        #n_ctx是1024
         n_state = nx  # in Attention: n_state=768 (nx=n_embd) 768
         assert n_state % config.n_head == 0
         self.register_buffer("bias", torch.tril(torch.ones((n_ctx, n_ctx), dtype=torch.uint8)).view(1, 1, n_ctx, n_ctx))
@@ -244,7 +243,7 @@ class Block(nn.Module):
         attn_output = attn_outputs[0]  # output_attn: a, present, (attentions)
         outputs = attn_outputs[1:]
 
-        hidden_states = attn_output + hidden_states#残差连接
+        hidden_states = attn_output + hidden_states
 
 
         feed_forward_hidden_states = self.mlp(self.ln_2(hidden_states))#128, 60, 768
